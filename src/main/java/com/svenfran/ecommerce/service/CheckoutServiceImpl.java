@@ -54,10 +54,8 @@ public class CheckoutServiceImpl implements CheckoutService{
     }
 
     private String gererateOrderTrackingNumber() {
-
         // generate a random UUID number (UUID version-4)
         // For details see: wiki -> universally_unique_identifier
-
         return UUID.randomUUID().toString();
     }
 }
