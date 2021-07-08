@@ -27,7 +27,7 @@ public class CheckoutServiceImpl implements CheckoutService{
     @Transactional
     public PurchaseResponse placeOrder(Purchase purchase) {
 
-        // retrieve teh order info from dto
+        // retrieve the order info from dto
         Order order = purchase.getOrder();
 
         // generate tracking number
@@ -43,7 +43,16 @@ public class CheckoutServiceImpl implements CheckoutService{
         order.setShippingAddress(purchase.getShippingAddress());
 
         // populate customer with order
-        Customer  customer = purchase.getCustomer();
+        Customer customer = purchase.getCustomer();
+
+        // check if this is an existing customer
+        String theEmail = customer.getEmail();
+        Customer customerFromDB = customerRepository.findByEmail(theEmail);
+
+        if (customerFromDB != null) {
+            customer = customerFromDB;
+        }
+
         customer.add(order);
 
         // save to the db
