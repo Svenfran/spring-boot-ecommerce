@@ -18,7 +18,7 @@ import java.util.Set;
 @Configuration
 public class MyDataRestConfig implements RepositoryRestConfigurer {
 
-    @Value("${allowed.origins")
+    @Value("${allowed.origins}")
     private String[] theAllowedOrigins;
 
     private EntityManager entityManager;
@@ -34,7 +34,7 @@ public class MyDataRestConfig implements RepositoryRestConfigurer {
 
         HttpMethod[] theUnsupportedActions = {HttpMethod.PUT, HttpMethod.POST, HttpMethod.DELETE, HttpMethod.PATCH};
 
-        // disable HTTP method for PUT, POST and DELETE
+        // disable HTTP method for PUT, POST, PATCH and DELETE
         disableHttpMethods(Product.class, config, theUnsupportedActions);
         disableHttpMethods(ProductCategory.class, config, theUnsupportedActions);
         disableHttpMethods(Country.class, config, theUnsupportedActions);
@@ -45,10 +45,10 @@ public class MyDataRestConfig implements RepositoryRestConfigurer {
         exposeIds(config);
 
         // configure cors mapping
-        cors.addMapping(config.getBasePath() + "/**").allowedOrigins("http://localhost:4200");
+//        cors.addMapping(config.getBasePath() + "/**").allowedOrigins("http://localhost:4200");
 
         // line below not working -> Header: 'Access-Control-Allowe-Origin' is missing !?
-//        cors.addMapping(config.getBasePath() + "/**").allowedOrigins(theAllowedOrigins);
+        cors.addMapping(config.getBasePath() + "/**").allowedOrigins(theAllowedOrigins);
     }
 
     private void disableHttpMethods(Class theClass, RepositoryRestConfiguration config, HttpMethod[] theUnsupportedActions) {
